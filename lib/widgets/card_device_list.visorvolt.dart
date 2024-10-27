@@ -38,6 +38,7 @@ class _CardDeviceListState extends State<CardDeviceList> {
                   _isChecked = value!; // Actualiza el estado
                 });
               },
+              activeColor: AppStyles.primaryColor,
             ),
             Expanded(
               child: Text(

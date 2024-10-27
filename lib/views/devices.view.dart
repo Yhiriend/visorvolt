@@ -12,7 +12,7 @@ class DevicesView extends StatelessWidget {
         title: Text("Dispositivos", style: TextStyle(color: AppStyles.textLightColor),),
         backgroundColor: AppStyles.darkBackgroundColor,
       ),
-      body: Expanded(
+      body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
           child: Column(
@@ -24,9 +24,10 @@ class DevicesView extends StatelessWidget {
                 child: Column(
                   children: [
                     CardDeviceList(title: "Nevera",),
-                    CardDeviceList(title: "Nevera",),
-                    CardDeviceList(title: "Nevera",),
-                    CardDeviceList(title: "Nevera",)
+                    CardDeviceList(title: "Bombilla Sala",),
+                    CardDeviceList(title: "Aire Acondicionado",),
+                    CardDeviceList(title: "Bombilla Hab1",),
+                    CardDeviceList(title: "Bombilla Hab2",)
                   ],
                 ),
               )

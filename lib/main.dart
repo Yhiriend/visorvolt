@@ -4,6 +4,7 @@ import 'package:visorvolt/views/add_device.view.dart';
 import 'package:visorvolt/views/devices.view.dart';
 import 'package:visorvolt/views/login.view.dart';
 import 'package:visorvolt/views/home.view.dart';
+import 'package:visorvolt/views/register.view.dart';
 import 'package:visorvolt/views/settings.view.dart';
 import 'package:visorvolt/widgets/navbar.visorvolt.dart';
 
@@ -17,9 +18,11 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
         '/': (context) => LoginView(),
+        '/register': (context) => RegisterView(),
         '/home': (context) => MainHomeView(), // Cambia la ruta a MainHomeView
       },
     );

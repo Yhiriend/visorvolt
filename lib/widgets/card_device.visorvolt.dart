@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:visorvolt/styles/styles.dart';
 
 class CardDevice extends StatelessWidget {
   final String title;
   final String consumption;
+  final String valueKWH;
   final String temperature;
   final IconData icon;
   final bool isOn;
@@ -13,6 +15,7 @@ class CardDevice extends StatelessWidget {
     Key? key,
     required this.title,
     required this.consumption,
+    required this.valueKWH,
     required this.temperature,
     required this.icon,
     required this.isOn,
@@ -21,6 +24,11 @@ class CardDevice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double monetaryValue = double.parse(consumption) * double.parse(valueKWH);
+
+    // Formatea el valor monetario con separación de miles y 2 decimales
+    var formattedValue = NumberFormat.currency(locale: 'en_ES', symbol: '\$').format(monetaryValue);
+
     return GestureDetector(
       onTap: onTap,
       child: Card(
@@ -68,11 +76,10 @@ class CardDevice extends StatelessWidget {
               SizedBox(height: 10.0),
               Row(
                 children: [
-                  Icon(Icons.thermostat),
                   Text(
-                    temperature,
-                    style: TextStyle(fontSize: 16.0),
-                  ),
+                    formattedValue,
+                    style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  )
                 ],
               ),
             ],

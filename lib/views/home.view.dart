@@ -5,6 +5,7 @@ import '../utils/get_icon.utils.dart';
 import '../widgets/card_alert.visorvolt.dart';
 import '../widgets/card_device.visorvolt.dart';
 import '../widgets/circle_painter.visorvolt.dart';
+import 'device_detail.view.dart';
 
 class HomeView extends StatelessWidget {
   final VoidCallback onCardAddDeviceTap;
@@ -92,11 +93,16 @@ class HomeView extends StatelessWidget {
                             return CardDevice(
                               title: device['title'],
                               consumption: device['consumption'],
+                              valueKWH: device['valueKWH'] ?? "0",
                               temperature: device['temperature'],
                               icon: getIcon(device['icon']),
                               isOn: device['isOn'],
                               onTap: () => {
-                                print("on tap ${device['title']}")
+                                print("on tap ${device['title']}"),
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => DeviceDetailView())
+                                )
                               }
                             );
                           }).toList(),

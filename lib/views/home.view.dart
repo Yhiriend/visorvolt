@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:visorvolt/services/providers/device_provider.dart';
+import 'package:visorvolt/services/providers/user_provider.dart';
 import '../constants/devices.dart';
 import '../styles/styles.dart';
 import '../utils/get_icon.utils.dart';
@@ -7,19 +10,41 @@ import '../widgets/card_device.visorvolt.dart';
 import '../widgets/circle_painter.visorvolt.dart';
 import 'device_detail.view.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   final VoidCallback onCardAddDeviceTap;
   final VoidCallback onAllDeviceTap;
+
   const HomeView({
     Key? key,
     required this.onCardAddDeviceTap,
     required this.onAllDeviceTap
-}): super(key: key);
+  }) : super(key: key);
+
+  @override
+  _HomeViewState createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  get onCardAddDeviceTap => null;
+
+  get onAllDeviceTap => null;
+
+  @override
+  void initState() {
+    super.initState();
+    final deviceProvider = Provider.of<DeviceProvider>(context, listen: false);
+    deviceProvider.setDevices(deviceData);  // Inicializa los dispositivos
+    deviceProvider.simulateConsumption();   // Comienza a simular el consumo
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double halfScreenHeight = MediaQuery.of(context).size.height / 2;
-
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final userName = userProvider.getUser()?.name.split(" ")[0] ?? "User Undefined";
+    final deviceProvider = Provider.of<DeviceProvider>(context, listen: true);
     return SafeArea(child: Scaffold(
       backgroundColor: AppStyles.backgroundColor,
       body: Stack(
@@ -49,7 +74,7 @@ class HomeView extends StatelessWidget {
                     Padding(padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0), child: Row(
                       children: [
                         Text(
-                          "21 de octubre de 2023",
+                          "18 de noviembre de 2024",
                           style: TextStyle(color: AppStyles.textLightColor, fontSize: 18.0, fontWeight: FontWeight.w300),
                         )
                       ],
@@ -57,7 +82,7 @@ class HomeView extends StatelessWidget {
                     Padding(padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0), child:Row(
                       children: [
                         Text(
-                          "Hola, Yirien",
+                          "Hola, $userName",
                           style: TextStyle(color: AppStyles.textLightColor, fontSize: 30.0, fontWeight: FontWeight.bold),
                         )
                       ],
@@ -89,16 +114,17 @@ class HomeView extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: [
-                            ...deviceData.take(3).map((device) {
+                            ...deviceProvider.getDevices().take(3).map((device) {
                             return CardDevice(
-                              title: device['title'],
-                              consumption: device['consumption'],
-                              valueKWH: device['valueKWH'] ?? "0",
-                              temperature: device['temperature'],
-                              icon: getIcon(device['icon']),
-                              isOn: device['isOn'],
+                              title: device.title,
+                              consumption: device.consumption.toStringAsFixed(2).toString(),
+                              valueKWH: device.valueKWH.toString(),
+                              temperature: device.temperature,
+                              icon: getIcon(device.icon),
+                              isOn: device.isOn,
                               onTap: () => {
-                                print("on tap ${device['title']}"),
+                                print("on tap ${device.title}"),
+                                deviceProvider.setSelected(device),
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => DeviceDetailView())

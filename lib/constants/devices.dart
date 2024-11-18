@@ -2,12 +2,14 @@ final List<Map<String, dynamic>> deviceData = [
   {
     'id': 1,
     'title': "Nevera",
-    'consumption': "49.21",
+    'consumption': "0.00",
     'valueKWH': "210.15",
     'temperature': "4 °C",
     'icon': 'refrigerator',
     'isOn': true,
-    'isActive': true
+    'isActive': true,
+    'alert': "0",
+    'suspend' : "0"
   },
   {
     'id': 2,
@@ -17,27 +19,33 @@ final List<Map<String, dynamic>> deviceData = [
     'temperature': "N/A",
     'icon': 'lightbulb',
     'isOn': false,
-    'isActive': true
+    'isActive': true,
+    'alert': "0",
+    'suspend' : "0"
   },
   {
     'id': 3,
     'title': "Aire Acondicionado",
-    'consumption': "200.12",
+    'consumption': "0.00",
     'valueKWH': "210.15",
     'temperature': "24 °C",
     'icon': 'air_conditioner',
     'isOn': true,
-    'isActive': true
+    'isActive': true,
+    'alert': "0",
+    'suspend' : "0"
   },
   {
     'id': 4,
     'title': "Televisor",
     'consumption': "50.00",
-    'valueKWH': "210.15",
+    'valueKWH': "0.00",
     'temperature': "N/A",
     'icon': 'tv',
     'isOn': true,
-    'isActive': true
+    'isActive': true,
+    'alert': "0",
+    'suspend' : "0"
   },
   {
     'id': 5,
@@ -47,7 +55,9 @@ final List<Map<String, dynamic>> deviceData = [
     'temperature': "N/A",
     'icon': 'washing_machine',
     'isOn': false,
-    'isActive': true
+    'isActive': true,
+    'alert': "0",
+    'suspend' : "0"
   },
   {
     'id': 6,
@@ -57,7 +67,9 @@ final List<Map<String, dynamic>> deviceData = [
     'temperature': "N/A",
     'icon': 'microwave',
     'isOn': false,
-    'isActive': true
+    'isActive': true,
+    'alert': "0",
+    'suspend' : "0"
   },
   {
     'id': 7,
@@ -67,7 +79,9 @@ final List<Map<String, dynamic>> deviceData = [
     'temperature': "N/A",
     'icon': 'fan',
     'isOn': false,
-    'isActive': true
+    'isActive': true,
+    'alert': "0",
+    'suspend' : "0"
   },
   {
     'id': 8,
@@ -77,6 +91,8 @@ final List<Map<String, dynamic>> deviceData = [
     'temperature': "N/A",
     'icon': 'computer',
     'isOn': false,
-    'isActive': true
+    'isActive': true,
+    'alert': "0",
+    'suspend' : "0"
   },
 ];

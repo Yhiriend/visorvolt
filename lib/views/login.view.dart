@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:visorvolt/services/providers/user_provider.dart';
 import 'package:visorvolt/styles/styles.dart';
 import 'package:visorvolt/widgets/button.visorvolt.dart';
 import 'package:visorvolt/widgets/input.visorvolt.dart';
@@ -21,6 +23,8 @@ class _LoginViewState extends State<LoginView> {
     // Simulamos una tarea asíncrona
     await Future.delayed(Duration(seconds: 2));
     if (usernameController.text == "test" && passwordController.text == "test") {
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      userProvider.setUser("Yirien Ortiz Urango", "yirien@email.com", "123456");
       Navigator.pushReplacementNamed(context, '/home');
     }
     setState(() {

@@ -1,7 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:visorvolt/styles/styles.dart';
 import 'package:visorvolt/widgets/input.visorvolt.dart';
 
+import '../services/providers/device_provider.dart';
+import '../utils/get_icon.utils.dart';
 import '../widgets/button.visorvolt.dart';
 import '../widgets/switch.visortvolt.dart';
 
@@ -17,9 +21,30 @@ class _DeviceDetailViewState extends State<DeviceDetailView> {
   TextEditingController _alertThreshold = TextEditingController();
   TextEditingController _suspendThreshold = TextEditingController();
   TextEditingController _valueKWH = TextEditingController();
+  String _consumption = "";
+  IconData? _icon = null;
   bool _switchState = true; // Estado del interruptor
-
   bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final deviceProvider = Provider.of<DeviceProvider>(context, listen: false);
+    final device = deviceProvider.getSelected();
+    if (device != null) {
+      setState(() {
+        _deviceName.text = device.title;
+        _alertThreshold.text = device.alert.toStringAsFixed(2);
+        _suspendThreshold.text = device.suspend.toStringAsFixed(2);
+        _valueKWH.text = device.valueKWH.toStringAsFixed(2);
+        _consumption = device.consumption.toStringAsFixed(2);
+        _icon = getIcon(device.icon);
+        _switchState = device.isOn;
+      });
+    }
+
+  }
+
   Future<void> _onButtonPressed() async {
     setState(() {
       isLoading = true; // Cambiar a true al inicio
@@ -32,8 +57,10 @@ class _DeviceDetailViewState extends State<DeviceDetailView> {
   }
 
   void _handleSwitchChange(bool newValue) {
+    final devicePrivider = Provider.of<DeviceProvider>(context, listen: false);
     setState(() {
       _switchState = newValue; // Actualiza el estado al cambiar
+      //devicePrivider.toggleDeviceState(id)
     });
   }
 
@@ -60,12 +87,17 @@ class _DeviceDetailViewState extends State<DeviceDetailView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(Icons.kitchen_outlined, size: 100, color: AppStyles.textColor,),
+                    Icon(_icon, size: 100, color: AppStyles.textColor,),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text("Nevera", style: TextStyle(color: AppStyles.textColor, fontWeight: FontWeight.bold, fontSize: 30.0),),
+                        Text(
+                          _deviceName.text.length > 12 ? '${_deviceName.text.substring(0, 10)}...' : "${_deviceName.text}",
+                          style: TextStyle(color: AppStyles.textColor, fontWeight: FontWeight.bold, fontSize: 30.0),
+                          overflow: TextOverflow.ellipsis, // Asegura que se muestre correctamente
+                          maxLines: 1,
+                        ),
                         Row(
                           children: [
                             Text("Estado: "),
@@ -82,14 +114,14 @@ class _DeviceDetailViewState extends State<DeviceDetailView> {
                         Row(
                           children: [
                             Text("Consumo: "),
-                            Text("49.21  "),
+                            Text("$_consumption  "),
                             Text("kWh")
                           ],
                         ),
                         Row(
                           children: [
                             Text("Valor: "),
-                            Text("\$10 341.48"),
+                            Text("\$${double.parse(_consumption) * double.parse(_valueKWH.text)}"),
                           ],
                         )
                       ],

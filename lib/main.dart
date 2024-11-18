@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:visorvolt/services/providers/device_provider.dart';
+import 'package:visorvolt/services/providers/user_provider.dart';
 import 'package:visorvolt/styles/styles.dart';
 import 'package:visorvolt/views/add_device.view.dart';
 import 'package:visorvolt/views/devices.view.dart';
@@ -9,7 +12,13 @@ import 'package:visorvolt/views/settings.view.dart';
 import 'package:visorvolt/widgets/navbar.visorvolt.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => UserProvider()),
+      ChangeNotifierProvider(create: (_) => DeviceProvider())
+    ],
+    child: MainApp(),
+  ));
 }
 
 class MainApp extends StatelessWidget {
